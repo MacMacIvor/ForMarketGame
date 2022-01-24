@@ -19,6 +19,10 @@ namespace characterInterface
         public void addExperience(float value);
         public int getCharacterID(); //ID is what character in the list
         public void reset();
+        public List<string> displayInformation();
+        public int getFaction();
+        public float calculateXP(int factionThatIsEating);
+        public int getFormationPosition();
     }
 
 
@@ -27,6 +31,8 @@ namespace characterInterface
         int id = 0; //Remember to change this to what it shows up in the list as following index rules
 
 
+        int faction = 1; //Factions
+
 
         float speed = 10;
         float totalHealth = 100; //Not sure if this is needed but just in case, can delete later if it's not
@@ -34,15 +40,15 @@ namespace characterInterface
         float damage = 20;
         GameObject thisObject;
         string currentlyPlayingAnimation;
-        int formationPosition = 0; //Positions can be 
+        int formationPosition = 99; //Positions can be 
                                    //1
                                    //2, 3
                                    //4, 5, 6
                                    //If we want more positions later than we can add them
                                    //Starts at 0 because it needs to be initialized into something
         float experience = 0; //xp that the character has, will be developed more later on
-
-
+        int level = 0; //Level equation is 
+        string ultimateDescription = "Stun entire enemy team for 0.5s every 4s";
         public void Initialization(int position, float xp)
         {
             //this.thisObject = new GameObject(); //This won't be for a while I assume but create the sprite and place it where it should be
@@ -50,23 +56,19 @@ namespace characterInterface
             this.currentlyPlayingAnimation = "Iddle";
             this.experience = xp;
         }
-
         public bool isDeath()
         {
             return (this.health <= 0);
         }
-
         public void attack(List<CHARACTERBOX> characters)
         {
             //Different types of attacks will be put in here, for now this will be just attack the first enemy
             characters[0].takeDamage(damage);
         }
-
         public void takeDamage(float damageToTake)
         {
             this.health -= damageToTake;
         }
-
         public float getSpeed()
         {
             return this.speed;
@@ -75,7 +77,6 @@ namespace characterInterface
         {
             thisObject = gameObject;
         }
-
         public GameObject getGameObject()
         {
             return this.thisObject;
@@ -103,17 +104,54 @@ namespace characterInterface
         public void addExperience(float value)
         {
             this.experience += value;
+            int didlevel = Mathf.FloorToInt(Mathf.Log(value*value*value*value*value*value*value*value*value*value*value*value*value*value*value) +1);
+            if (didlevel > level + 1)
+            {
+                this.level = didlevel;
+            }
+            this.experience = 0;
         }
         public int getCharacterID()
         {
             return id;
         }
-
         public void reset()
         {
             this.health = this.totalHealth;
         }
+        public List<string> displayInformation()
+        {
+            string generalStats = "Speed = " + this.speed + "   Health = " + this.totalHealth + "   Damage = " + this.damage +
+                "\nLevel = " + this.level + "       Xp = " + this.experience + "        For Next Level = " + (Mathf.FloorToInt(Mathf.Log((this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * (this.level + 1) * this.experience) + 1) - Mathf.FloorToInt(Mathf.Log(this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience * this.experience) + 1)).ToString();
+            string ultimates = ultimateDescription;
+
+            List<string> toreturn = new List<string>();
+            toreturn.Add(generalStats);
+            toreturn.Add(ultimates);
+            return toreturn;
+        }
+        public int getFaction()
+        {
+            return this.faction;
+        }
+
+        public float calculateXP(int factionThatIsEating)
+        {
+            switch (factionThatIsEating)
+            {
+                case 1:
+                    return 2;
+                default:
+                    return 0.5f;
+            }
+        }
+        public int getFormationPosition()
+        {
+            return this.formationPosition;
+        }
+
     }
+
 
 }
 

@@ -130,6 +130,17 @@ public class playerManager : MonoBehaviour
         return playerLevelForStoryAndNotJustGeneralLevel;
     }
 
+    public void sacrificeSelected(int sacrificedID, int eaterID)
+    {
+        playerCharacterInventory[eaterID].addExperience(playerCharacterInventory[sacrificedID].calculateXP(playerCharacterInventory[eaterID].getFaction()));
+        if (playerCharacterInventory[sacrificedID].getFormationPosition() != 99)
+        {
+            playerCurrentTeam.RemoveAt(playerCharacterInventory[sacrificedID].getFormationPosition());
+        }
+        playerCharacterInventory.RemoveAt(sacrificedID);
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -137,6 +148,11 @@ public class playerManager : MonoBehaviour
         playerCharacterInventory.Add(new Character1());
         playerCharacterInventory[0].Initialization(0, 0);
         playerCurrentTeam.Add(0);
+
+        playerCharacterInventory.Add(new Character1());
+        playerCharacterInventory[1].Initialization(1, 0);
+        playerCurrentTeam.Add(1);
+
     }
 
     // Update is called once per frame
