@@ -34,6 +34,8 @@ public class characterInventory : MonoBehaviour
     private float giveRoomBeforeConsiteredSliding = 3;
     private List<int> selectedForSacrifice = new List<int>();
     private int selectedCharacterID = 0;
+    float moveDistance = 0;
+    float moveDistance2 = 0;
 
     //Returns 'true' if we touched or hovering on Unity UI element.
     public int IsPointerOverUIElement(Vector3 position)
@@ -167,13 +169,13 @@ public class characterInventory : MonoBehaviour
                     switch (screenTouchTimerForTapOrNot == 0)
                     {
                         case true:
-                            initScreenTouchPos = touch2.position;
+                            initScreenTouchPos = Camera.main.ScreenToWorldPoint(touch2.position);
                             break;
                         case false:
 
                             break;
                     }
-                    float moveDistance2 = Vector3.Distance(initScreenTouchPos, touch2.position);
+                    moveDistance2 = Vector3.Distance(initScreenTouchPos, Camera.main.ScreenToWorldPoint(touch2.position));
                     switch (screenTouchTimerForTapOrNot < screenTouchMaxTimerForTapOrNot && moveDistance2 < giveRoomBeforeConsiteredSliding)
                     {
                         case true:
@@ -189,7 +191,7 @@ public class characterInventory : MonoBehaviour
                                     case true:
 
                                         // get the touch2 position from the screen touch2 to world point
-                                        Vector3 touch2edPos = (new Vector3(0, touch2.position.y, 0));
+                                        Vector3 touch2edPos = (Camera.main.ScreenToWorldPoint(new Vector3(0, touch2.position.y, 0)));
                                         // lerp and set the position of the current object to that of the touch2, but smoothly over time.
                                         //transform.position = Vector3.Lerp(transform.position, touch2edPos, Time.deltaTime);
                                         Vector3 amountToMove2 = touch2edPos - lastMoved;
@@ -199,7 +201,7 @@ public class characterInventory : MonoBehaviour
                                         break;
                                     case false:
 
-                                        Vector3 touch2edPos2 = (new Vector3(0, touch2.position.y, 0));
+                                        Vector3 touch2edPos2 = Camera.main.ScreenToWorldPoint((new Vector3(0, touch2.position.y, 0)));
                                         lastMoved = touch2edPos2;
                                         reseted = true;
                                         
@@ -215,7 +217,7 @@ public class characterInventory : MonoBehaviour
                 {
                     if (screenTouchTimerForTapOrNot != 0)
                     {
-                        switch (screenTouchTimerForTapOrNot < screenTouchMaxTimerForTapOrNot)
+                        switch (screenTouchTimerForTapOrNot < screenTouchMaxTimerForTapOrNot && moveDistance2 < giveRoomBeforeConsiteredSliding)
                         {
                             case true:
                                 //Call the touch2 function here
@@ -320,13 +322,13 @@ public class characterInventory : MonoBehaviour
                     switch (screenTouchTimerForTapOrNot == 0)
                     {
                         case true:
-                            initScreenTouchPos = touch.position;
+                            initScreenTouchPos = Camera.main.ScreenToWorldPoint(touch.position);
                             break;
                         case false:
 
                             break;
                     }
-                    float moveDistance = Vector3.Distance(initScreenTouchPos, touch.position);
+                    moveDistance = Vector3.Distance(initScreenTouchPos, Camera.main.ScreenToWorldPoint(touch.position));
                     switch (screenTouchTimerForTapOrNot < screenTouchMaxTimerForTapOrNot && moveDistance < giveRoomBeforeConsiteredSliding)
                     {
                         case true:
@@ -342,7 +344,7 @@ public class characterInventory : MonoBehaviour
                                     case true:
 
                                         // get the touch position from the screen touch to world point
-                                        Vector3 touchedPos = (new Vector3(0, touch.position.y, 0));
+                                        Vector3 touchedPos = Camera.main.ScreenToWorldPoint((new Vector3(0, touch.position.y, 0)));
                                         // lerp and set the position of the current object to that of the touch, but smoothly over time.
                                         //transform.position = Vector3.Lerp(transform.position, touchedPos, Time.deltaTime);
                                         Vector3 amountToMove = touchedPos - lastMoved;
@@ -352,7 +354,7 @@ public class characterInventory : MonoBehaviour
                                         break;
                                     case false:
 
-                                        Vector3 touchedPos2 = (new Vector3(0, touch.position.y, 0));
+                                        Vector3 touchedPos2 = Camera.main.ScreenToWorldPoint((new Vector3(0, touch.position.y, 0)));
                                         lastMoved = touchedPos2;
                                         reseted = true;
 
@@ -368,7 +370,7 @@ public class characterInventory : MonoBehaviour
                 {
                     if (screenTouchTimerForTapOrNot != 0)
                     {
-                        switch (screenTouchTimerForTapOrNot < screenTouchMaxTimerForTapOrNot)
+                        switch (screenTouchTimerForTapOrNot < screenTouchMaxTimerForTapOrNot && moveDistance < giveRoomBeforeConsiteredSliding)
                         {
                             case true:
                                 //Call the touch function here

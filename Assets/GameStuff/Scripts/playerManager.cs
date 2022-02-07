@@ -25,7 +25,12 @@ public class playerManager : MonoBehaviour
     int playerLevel = 0;
     int playerLevelForStoryAndNotJustGeneralLevel = 0;
 
-    bool playerBoughtSpeedUps;
+    bool playerBoughtSupporter = false;
+    bool playerBoughtDailyDoubles = false;
+    bool playerBoughtPermanentStrength = false;
+    bool playerBoughtEasyLeveling = false;
+
+
     float timeLeftInMonthlyPack = 0; //We can work out the details later but basically a type of pack that gives a bonus for the amount of time 
     float timeLeftInWeeklyPack = 0;
     float timeLeftInDailyPack = 0;
@@ -139,6 +144,79 @@ public class playerManager : MonoBehaviour
         }
         playerCharacterInventory.RemoveAt(sacrificedID);
         
+    }
+
+    public List<int> intentionsToPurchase(string purchaseName)
+    {
+        List<int> list = new List<int>();
+
+                //Start checking for if the player can even buy the pack
+        switch (purchaseName)
+        {
+            case "FreeCurrency":
+                if (heldCoins >= 1000)
+                {
+                    heldCoins -= 1000;
+                    //Return 10 random characters that the player bough, to be added when there exists 10 characters in code
+                }
+                break;
+            case "BetterFreeCurrency":
+                if (heldCoins >= 2700)
+                {
+                    heldCoins -= 2700;
+                    //Return 10 random characters that the player bough, to be added when there exists 10 characters in code
+                }
+                break;
+            case "Paid":
+                if (heldGold >= 2700)
+                {
+                    heldGold -= 2700;
+                    //Return 10 random characters that the player bough, to be added when there exists 10 characters in code
+                }
+                break;
+            case "Daily":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                buyDaily();
+                break;
+            case "Weekly":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                buyWeekly();
+                break;
+            case "Monthly":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                buyMontly();
+                break;
+            case "500":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                heldGold += 500;
+                break;
+            case "3000":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                heldGold += 3000;
+                break;
+            case "10000":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                heldGold += 10000;
+                break;
+            case "SupporterPack":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                playerBoughtSupporter = true;
+                break;
+            case "DailyDoubles":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                playerBoughtDailyDoubles = true;
+                break;
+            case "PermanentStrength":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                playerBoughtPermanentStrength = true;
+                break;
+            case "EasyLeveling":
+                //This one has to be tested once we have put it into the playstore, verification of payment is needed here
+                playerBoughtEasyLeveling = true;
+                break;
+
+        }
+        return list;
     }
 
     // Start is called before the first frame update
